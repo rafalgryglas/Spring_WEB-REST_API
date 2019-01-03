@@ -1,6 +1,6 @@
 package com.crud.tasks.controller;
 
-import com.crud.tasks.client.TrelloClient;
+import com.crud.tasks.trello.client.TrelloClient;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
 import com.crud.tasks.domain.CreatedTrelloCardDto;
@@ -20,30 +20,10 @@ public class TrelloController {
     private TrelloClient trelloClient;
 
     @RequestMapping(method = RequestMethod.GET, value = "getTrelloBoards")
-    public void getTrelloBoards() {
-
-//        List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
-
-//        trelloBoards.stream()
-//                .filter(i->i.getId()!=null)
-//                .filter(i->i.getName()!=null)
-//                .filter(i->i.getName().startsWith("Kodilla"))
-//                .forEach(i-> System.out.println(i.getId() + " " + i.getName()));
-
-// GET request
-        List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
-
-        trelloBoards.forEach(trelloBoardDto -> {
-
-            System.out.println(trelloBoardDto.getName() + " - " + trelloBoardDto.getId());
-
-            System.out.println("This board contains lists: ");
-
-            trelloBoardDto.getLists().forEach(trelloList ->
-                    System.out.println(trelloList.getName() + " - " + trelloList.getId() + " - " + trelloList.isClosed()));
-
-        });
+    public List<TrelloBoardDto> getTrelloBoards() {
+        return trelloClient.getTrelloBoards();
     }
+
     @RequestMapping(method = RequestMethod.POST, value = "createTrelloCard")
     public CreatedTrelloCardDto createdTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
         return trelloClient.createdNewCard(trelloCardDto);
