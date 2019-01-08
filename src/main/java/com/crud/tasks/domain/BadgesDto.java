@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BadgesDto {
+
     @JsonProperty("votes")
     private int votes;
     @JsonProperty("attachmentsByType")
