@@ -23,15 +23,10 @@ public class EmailScheduler {
     private AdminConfig adminConfig;
 
     @Scheduled(cron = "0 0 10 * * *")
-    // @Scheduled(fixedDelay = 10000)
+//    @Scheduled(fixedDelay = 10000)
     public void sendInformationEmail() {
         long size = taskRepository.count();
-        String text;
-        if (size == 1) {
-            text = " task";
-        } else {
-            text = " tasks";
-        }
+        String text = (size == 1 ?  " task" : " tasks");
         simpleEmailService.send(new Mail(
                 adminConfig.getAdminMail(),
                 SUBJECT,
