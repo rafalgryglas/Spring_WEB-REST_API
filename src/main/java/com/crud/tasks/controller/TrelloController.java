@@ -4,7 +4,6 @@ import com.crud.tasks.domain.CreatedTrelloCardDto;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
 import com.crud.tasks.service.TrelloService;
-import com.crud.tasks.trello.client.TrelloClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,7 @@ import java.util.List;
 @RequestMapping("/v1/trello")
 public class TrelloController {
 
-//    @Autowired
+    //    @Autowired
 //    private TrelloClient trelloClient;
 //
 //    @RequestMapping(method = RequestMethod.GET, value = "getTrelloBoards")
