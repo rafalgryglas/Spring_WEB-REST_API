@@ -21,7 +21,7 @@ public class TrelloService {
     private TrelloClient trelloClient;
 
     @Autowired
-    private SimpleEmailService emailService;
+    private SimpleMailService emailService;
 
     private static final String SUBJECT = "Tasks: New Trello card";
 
