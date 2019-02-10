@@ -4,8 +4,6 @@ import com.crud.tasks.domain.Mail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
-import org.springframework.mail.MailParseException;
 import org.springframework.mail.MailPreparationException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -34,6 +32,16 @@ public class SimpleMailService {
         }
     }
 
+    public void sendOneDayReport(final Mail mail) {
+        LOGGER.info("Starting email preparation...");
+        try {
+            javaMailSender.send(createMailOneDayReport(mail));
+            LOGGER.info("Email with report has been sent");
+        } catch (MailPreparationException e) {
+            LOGGER.error("Failed to process email sending: ", e.getMessage(), e);
+        }
+    }
+
     private MimeMessagePreparator createMimeMessage(final Mail mail) {
         return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
@@ -48,10 +56,15 @@ public class SimpleMailService {
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()));
-//        if (mail.getToCc() != null) {
-//            mailMessage.setCc(mail.getToCc());
-//            LOGGER.info("Email also has been sent to CC");
-//        }
         return mailMessage;
+    }
+
+    private MimeMessagePreparator createMailOneDayReport(final Mail mail) {
+        return mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setTo(mail.getMailTo());
+            messageHelper.setSubject(mail.getSubject());
+            messageHelper.setText(mailCreatorService.oneDayTasksReportMail(mail.getMessage()), true);
+        };
     }
 }
